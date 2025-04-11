@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crypto Price Tracker</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 30px;
+      background: #121212;
+      color: #fff;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    .crypto {
+      margin: 15px 0;
+      font-size: 1.2rem;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #00adb5;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>💰 Crypto Price Tracker</h1>
+  
+  <div class="crypto" id="bitcoin">Bitcoin (BTC): Loading...</div>
+  <div class="crypto" id="ethereum">Ethereum (ETH): Loading...</div>
+  <div class="crypto" id="dogecoin">Dogecoin (DOGE): Loading...</div>
+  
+  <button onclick="getPrices()">Refresh Prices</button>
+
+  <script>
+    async function getPrices() {
+      const url = 'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,dogecoin&vs_currencies=usd';
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+
+        document.getElementById('bitcoin').textContent = `Bitcoin (BTC): $${data.bitcoin.usd}`;
+        document.getElementById('ethereum').textContent = `Ethereum (ETH): $${data.ethereum.usd}`;
+        document.getElementById('dogecoin').textContent = `Dogecoin (DOGE): $${data.dogecoin.usd}`;
+      } catch (error) {
+        alert('Failed to fetch prices. Please try again later.');
+        console.error(error);
+      }
+    }
+
+    // Load prices on page load
+    getPrices();
+  </script>
+</body>
+</html>
